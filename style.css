@@ -41,14 +41,40 @@ body {
 }
 
 .pokemonCard {
-    height: 400px;
-    width: 350px;
-    display: flex;
-    justify-content: space-between;
+    height: 250px;
+    width: 400px;
     margin: auto;
     margin-top: 20px;
+    margin-bottom: 20px;
     box-shadow: 5px 5px 5px 0px rgba(151, 151, 151, 0.5), inset 4px 4px 15px 0px #e3dbdb, 5px 5px 15px 5px rgba(151, 151, 151, 0.5);
     background-color: rgb(233, 220, 220);
+    border-radius: 40px;
+}
+
+.idOfPokemon {
+    display: flex;
+    justify-content: end;
+    margin-right: 50px;
+    margin-top: 20px;
+    font-size: 30px;
+    color: rgba(0, 0, 0, 0.3);
+}
+
+
+.pokName {
+    font-size: 45px;
+    color: white;
+}
+
+.type {
+    color: white;
+    font-size: 30px;
+}
+
+.picture {
+    height: 150px;
+    margin-top: -140px;
+    margin-right: 10px;
 }
 
 /* #pokedex {
