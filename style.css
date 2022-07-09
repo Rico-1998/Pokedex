@@ -11,6 +11,10 @@ body {
     background-attachment: fixed;
 }
 
+
+/**
+                                    * Overlay
+*/
 #overlay {
     position: absolute;
     height: 100vh;
@@ -38,44 +42,168 @@ body {
     height: 100vh;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .pokemonCard {
-    height: 250px;
-    width: 400px;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    box-shadow: 5px 5px 5px 0px rgba(151, 151, 151, 0.5), inset 4px 4px 15px 0px #e3dbdb, 5px 5px 15px 5px rgba(151, 151, 151, 0.5);
+    height: 300px;
+    width: 450px;
+    margin: 25px;
+    /* box-shadow: 5px 5px 5px 0px rgba(151, 151, 151, 0.5), inset 4px 4px 15px 0px #e3dbdb, 5px 5px 15px 5px rgba(151, 151, 151, 0.5); */
+    box-shadow: inset 5px 5px 26px 9px #e5dfdf;
     background-color: rgb(233, 220, 220);
-    border-radius: 40px;
+    /* border-radius: 40px; */
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 20px;
+    border-top-left-radius: 5px;
 }
 
-.idOfPokemon {
+.nr {
     display: flex;
     justify-content: end;
-    margin-right: 50px;
+    margin-right: 80px;
     margin-top: 20px;
     font-size: 30px;
     color: rgba(0, 0, 0, 0.3);
 }
 
+.structure {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: -20px;
+}
 
 .pokName {
-    font-size: 45px;
+    font-size: 40px;
     color: white;
+    display: flex;
+    justify-content: center;
 }
 
 .type {
+    width: 200px;
     color: white;
     font-size: 30px;
+    text-align: center;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    filter: drop-shadow(2px 4px 6px black);
+}
+
+.type span {
+    border-radius: 10px;
+    margin: 10px;
 }
 
 .picture {
-    height: 150px;
-    margin-top: -140px;
+    height: 200px;
     margin-right: 10px;
+    filter: drop-shadow(30px 15px 25px rgba(0, 0, 0, 0.3));
 }
+
+.picture:hover {
+    cursor: pointer;
+}
+
+/*
+* OpenedCard
+*/
+
+.backgroundofFullCard {
+    position: fixed;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+}
+
+.openedCard {
+    margin: 60px;
+    filter: contrast(1.5);
+    border-radius: 50px;
+}
+
+.headerCard {
+    padding-top: 20px;
+    padding-left: 45px;
+}
+
+.headerCard img:hover {
+    cursor: pointer;
+}
+
+.fullInformation {
+    color: white;
+    margin-left: 40px;
+}
+
+.typeOpenedCard {
+    height: 50px;
+    width: 50px;
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: brightness(0.9);
+}
+
+.typeOpenedCard img {
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+}
+
+#pokemonImgFullCard {
+    width: 280px;
+}
+
+.secondImage {
+    margin-top: -100px;
+    clip-path: ellipse(105% 100% at 50% 0%);
+    flex-direction: column;
+    align-items: center;
+}
+
+#curvedLine {
+    clip-path: ellipse(105% 100% at 50% 10%);
+    height: 50px;
+    width: 100%;
+}
+
+.statsContainer {
+    background: antiquewhite;
+    margin-top: -50px;
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+
+.btns {
+    padding-top: 60px;
+}
+
+#stats {
+    margin-top: 80px;
+}
+
+#stats h5 {
+    margin-bottom: 20px;
+    margin-left: 40px;
+}
+
+.progress {
+    width: 200px;
+    margin-right: 40px;
+}
+
+h2::first-letter {
+    text-transform: capitalize;
+}
+
 
 /* #pokedex {
     min-height: 50vh;
