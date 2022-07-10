@@ -29,15 +29,19 @@ function loadPokemon() {
 
 
 async function loadPokemonNames() {
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 30; i++) {
         let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${i + 1}`);
         let responseAsJson = await response.json();
         console.log(responseAsJson);
 
-        const pokemon = responseAsJson.name;
-        const pokemonWeight = responseAsJson.weight;
-        const stats = responseAsJson.stats;
-
+        let speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i + 1}`);
+        let speciesJson = await speciesResponse.json();
+        let pokemonText = speciesJson.flavor_text_entries[6];
+        let moves = responseAsJson.moves;
+        console.log('das ist moves', moves);
+        let pokemon = responseAsJson.name;
+        let pokemonWeight = responseAsJson.weight;
+        let stats = responseAsJson.stats;
         let firstType = responseAsJson.types[0].type.name;
         let secondType = responseAsJson.types[1]?.type.name; // das fragezeichen fragt ab ob die variable für jedes element existiert.
 
@@ -45,13 +49,14 @@ async function loadPokemonNames() {
             id: i + 1,
             pokemonName: pokemon,
             type: [firstType, secondType || ''], // wenn secoondType undefinded ist soll einfach ein leerer string eingesetzt werden
+            moves: moves,
+            text: pokemonText,
             stats: stats,
             weight: pokemonWeight,
         })
 
 
-        let content = document.getElementById('pokemonContent');
-        content.innerHTML += createPokemonCard(i);
+        document.getElementById('pokemonContent').innerHTML += createPokemonCard(i);;
         stylePokemonCard(i);
         showImages(i, allPokemons);
     }
@@ -68,26 +73,18 @@ function showImages(i, allPokemons) {
 }
 
 
-function renderStats(i) {
-    for (let x = 0; x < 6; x++) {
-        document.getElementById(`stats`).innerHTML +=  /*html*/`
-                <div class="d-flex justify-content-between">
-                    <h5>${allPokemons[i].stats[x].stat.name}</h5>
-
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%"></div>
-                    </div>
-
-                </div>
-             `;
-    }
+function updateProgressBar(i, x) {
+    let percent = allPokemons[i].stats[x].base_stat;
+    document.getElementById(`progressBar${x}`).innerHTML = `${percent} `;
+    document.getElementById(`progressBar${x}`).style = `width: ${percent}%;`;
 }
 
+
 function stylePokemonCard(i) {
-    document.getElementById(`pokemonCard${i}`).style = (`background-color: ${colours[allPokemons[i].type[0]]}`);
+    // document.getElementById(`pokemonCard${i}`).style = (`background-color: ${colours[allPokemons[i].type[0]]}`);
+    document.getElementById(`pokemonCard${i}`).style = (`background: radial-gradient(circle, ${colours[allPokemons[i].type[0]]} 84%, rgba(252,252,252,0.9766500350140056) 100%);`);
     document.getElementById(`firstPokemonType${i}`).style = (`background-color: ${colours[allPokemons[i].type[0]]}`);
     document.getElementById(`secondPokemonType${i}`).style = (`background-color: ${colours[allPokemons[i].type[1]]}`);
-    // document.getElementById(`pokemonCard${i}`).style = ` background-image: url(./img/background-card.png);`;
 }
 
 
@@ -107,9 +104,6 @@ function openPokedex() {
 function closeFullCard() {
     document.getElementById('openedCard').innerHTML = ``;
 }
-
-
-
 
 
 

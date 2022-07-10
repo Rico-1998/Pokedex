@@ -34,6 +34,10 @@ function createPokemonCard(i) {
 function openFullInfo(i) {
     let openedCard = document.getElementById(`openedCard`);
     openedCard.innerHTML += /*html*/`
+
+    <!-- <div>
+        <img src="./img/pokedex.png" alt="">
+        </div> -->
     <div class="backgroundofFullCard">
 
         <div class="openedCard" id="colorofOpenedCard">
@@ -53,29 +57,35 @@ function openFullInfo(i) {
                 </div>
 
                 <div class="typeOpenedCard" id="imgBackground2">
-                    <img id="secondTypeImg" src="./icons/${allPokemons[i].type[1]}.svg">
+                    <img id="secondTypeImg" src="./icons/${allPokemons[i].type[1]}.svg"> <!-- Fehler noch beheben -->
                 </div>
                 </div>
             </div>
             
             <div class="w-100 d-flex justify-content-center secondImage">
+                <div class="rightArrow">
+                    <img src="./img/arrow-55-32.png">
+                </div>
+
+                <div class="leftArrow">
+                    <img src="./img/arrow-87-32.png">
+                </div>
+
                 <img id="pokemonImgFullCard">
                 <div id="curvedLine"></div>
             </div>
 
-            <div class="statsContainer">
+            <div class="ContentContainer">
                 <div class="btns d-flex justify-content-around">
-                    <button>Stats</button>
-                    <button>Evolution</button>
-                    <button>About</button>
+                    <button class ="btn btn-info" onclick= "renderStats(${i})">Stats</button>
+                    <button class ="btn btn-info" onclick= "renderPokemonText(${i})">About</button>
+                    <button class ="btn btn-info" onclick= "renderMoves(${i})">Moves</button>
                 </div>
 
-                <div class="stats">
-                    <div id="stats"></div>
-
-                    <div id="progress"></div>
-
+                <div class="currentInformations">
+                    <div id="currentInformations"></div>
                 </div>
+
             </div>
         </div>
 
@@ -98,4 +108,52 @@ function openFullInfo(i) {
 
 
     renderStats(i);
+}
+
+
+function createStats(i, x) {
+    return /*html*/`
+    <div class="d-flex justify-content-between">
+        <h5>${allPokemons[i].stats[x].stat.name}</h5>
+
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%" id="progressBar${x}"></div>
+        </div>
+
+    </div>
+ `;
+}
+
+
+function renderStats(i) {
+    document.getElementById(`currentInformations`).innerHTML = '';
+    for (let x = 0; x < 6; x++) {
+        document.getElementById(`currentInformations`).innerHTML += createStats(i, x);
+        updateProgressBar(i, x);
+    }
+}
+
+
+function renderPokemonText(i) {
+    document.getElementById(`currentInformations`).innerHTML = '';
+    document.getElementById(`currentInformations`).innerHTML +=  /*html*/`
+    <div class="d-flex justify-content-center">
+        <div class="textField">
+            <span>${allPokemons[i].text.flavor_text}</span>
+        </div>
+    </div>
+    `
+}
+
+
+function renderMoves(i) {
+    document.getElementById(`currentInformations`).innerHTML = '';
+    document.getElementById(`currentInformations`).innerHTML += /*html*/` <div id="moveContainer"></div> `
+
+    for (let x = 0; x < allPokemons.length; x++) {
+        let actualMove = allPokemons[i].moves[x].move.name;
+        document.getElementById(`moveContainer`).innerHTML += /*html*/`
+            <div><span>${actualMove}</span></div>
+        `
+    }
 }
