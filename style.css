@@ -107,6 +107,7 @@ body {
     color: white;
     display: flex;
     justify-content: center;
+    text-transform: capitalize;
 }
 
 .typeColour {
@@ -153,6 +154,51 @@ body {
     top: 0;
     display: flex;
     justify-content: center;
+}
+
+.rotateIn {
+    -webkit-animation-name: rotateIn;
+    animation-name: rotateIn;
+    -webkit-animation-duration: 225ms;
+    animation-duration: 225ms;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes rotateIn {
+    0% {
+        -webkit-transform-origin: center;
+        transform-origin: center;
+        -webkit-transform: rotate3d(0, 0, 1, -200deg);
+        transform: rotate3d(0, 0, 1, -200deg);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-transform-origin: center;
+        transform-origin: center;
+        -webkit-transform: none;
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@keyframes rotateIn {
+    0% {
+        -webkit-transform-origin: center;
+        transform-origin: center;
+        -webkit-transform: rotate3d(0, 0, 1, -200deg);
+        transform: rotate3d(0, 0, 1, -200deg);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-transform-origin: center;
+        transform-origin: center;
+        -webkit-transform: none;
+        transform: none;
+        opacity: 1;
+    }
 }
 
 .openedCard {
@@ -258,6 +304,7 @@ body {
 
 #currentInformations {
     margin-top: 40px;
+    text-transform: capitalize;
 }
 
 #currentInformations h5 {
@@ -322,6 +369,12 @@ span::first-letter {
 }
 
 .infoFullcard {
+    height: 275px;
     overflow-y: auto;
     margin-left: 20px;
+}
+
+.infoFullcard div {
+    display: flex;
+    justify-content: space-between;
 }

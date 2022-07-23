@@ -36,13 +36,13 @@ async function loadPokemonNames() {
     for (let i = 0; i < 30; i++) {
         let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${i + 1}`);
         let responseAsJson = await response.json();
-        console.log(responseAsJson);
+        // console.log(responseAsJson);
 
         let speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i + 1}`);
         let speciesJson = await speciesResponse.json();
-        // let evolution = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${i + 1}`)
-        // let evolutionJson = await evolution.json();
-        // console.log('das ist evolution', evolutionJson);
+        let evolution = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${i + 1}`)
+        let evolutionJson = await evolution.json();
+        console.log('das ist evolution', evolutionJson);
         let pokemonText = speciesJson.flavor_text_entries[6];
         let moves = responseAsJson.moves;
         let pokemon = responseAsJson.name;
@@ -50,7 +50,7 @@ async function loadPokemonNames() {
         let pokemonHeight = responseAsJson.height;
         let stats = responseAsJson.stats;
         let types = responseAsJson.types;
-        console.log('das ist species', speciesJson);
+        // console.log('das ist species', speciesJson);
 
         allPokemons.push({
             id: i + 1,
@@ -62,11 +62,13 @@ async function loadPokemonNames() {
             weight: pokemonWeight,
             height: pokemonHeight,
             info: speciesJson,
+            mainInfo: responseAsJson,
+            evolution: evolutionJson,
         })
 
-        console.log(getStatsNameByLanguage(i));
+        // console.log(getStatsNameByLanguage(i));
 
-        document.getElementById('pokemonContent').innerHTML += createPokemonCard(i);;
+        createPokemonCard(i);
         stylePokemonCard(i);
         showImages(i, allPokemons);
     }

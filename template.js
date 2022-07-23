@@ -1,5 +1,6 @@
 function createPokemonCard(i) {
-    return /*html*/`
+    let pokemonCards = document.getElementById('pokemonContent');
+    pokemonCards.innerHTML += /*html*/`
 
     <div class="pokemonCard" onclick="openFullInfo(${i})" id="pokemonCard${i}">
 
@@ -31,7 +32,7 @@ function openFullInfo(i) {
     openedCard.innerHTML = '';
     openedCard.innerHTML += /*html*/`
 
-    <div class="backgroundofFullCard">
+    <div class="backgroundofFullCard rotateIn">
 
         <div class="openedCard" id="colorofOpenedCard">
             <div class="headerCard ">
@@ -67,6 +68,7 @@ function openFullInfo(i) {
                     <button class ="btn btn-info" onclick= "renderPokemonText(${i})">About</button>
                     <button class ="btn btn-info" onclick= "renderMoves(${i})">Moves</button>
                     <button class ="btn btn-info" onclick= "renderInfo(${i})">Info</button>
+                    <!-- <button class ="btn btn-info" onclick= "renderEvolution(${i})">Evolution</button> -->
                 </div>
 
                 <div class="currentInformations">
@@ -102,6 +104,7 @@ function createStats(i, x) {
 
 function renderPokemonTypes(i) {
     let image = document.getElementById('typeImages');
+    image.innerHTML += '';
     for (let x = 0; x < allPokemons[i].type.length; x++) {
         let actualImage = allPokemons[i].type[x].type.name;
         image.innerHTML += /*html*/`
@@ -158,10 +161,35 @@ function renderInfo(i) {
             <div><span>Weight: </span> <span>${allPokemons[i].weight} (lbs)</span></div>
             <div><span>Egg Group:</span> <div id="eggGroup" class="d-flex flex-column"></div></div>
             <div><span>Habitat: </span> <span>${allPokemons[i].info.habitat.name}</span></div>
-            <div><span>Abilitie:</span> <span></span></div> <!-- abilitie und hidden Abbilitie noch eintragen -->
+            <div><span>Ability:</span> <div id="ability" class=" d-flex flex-column"></div></div>
         </div>
     `;
     renderEggGroup(i);
+    renderAbility(i);
+}
+
+
+function renderEvolution(i) {
+    document.getElementById(`currentInformations`).innerHTML = '';
+    document.getElementById(`currentInformations`).innerHTML += /*html*/` <div id="evolution"></div> `
+    let evolution = document.getElementById('evolution');
+    for (let x = 0; x < allPokemons[i].evolution.chain.evolves_to.length; x++) {
+        const actualEvolution = allPokemons[i].evolution.chain.evolves_to[x];
+        evolution.innerHTML += /*html*/ `
+            <span>${actualEvolution.species.name}</span>
+            <div id ="evolutionImage"></div>
+        `
+    }
+}
+
+
+function renderAbility(i) {
+    for (let j = 0; j < allPokemons[i].mainInfo.abilities.length; j++) {
+        let actualAbility = allPokemons[i].mainInfo.abilities[j];
+        document.getElementById('ability').innerHTML += /*html*/ `
+            <span>${actualAbility.ability.name}</span>
+        `
+    }
 }
 
 
