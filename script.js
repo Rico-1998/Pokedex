@@ -1,4 +1,5 @@
 let allPokemons = [];
+let language = 'en';
 console.log('Das ist das Array', allPokemons);
 
 const colours = {
@@ -26,6 +27,9 @@ const colours = {
 function loadPokemon() {
     loadPokemonNames();
 }
+// async function loadPokemon() {
+//     await loadPokemonNames();
+// }
 
 
 async function loadPokemonNames() {
@@ -36,25 +40,31 @@ async function loadPokemonNames() {
 
         let speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i + 1}`);
         let speciesJson = await speciesResponse.json();
+        // let evolution = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${i + 1}`)
+        // let evolutionJson = await evolution.json();
+        // console.log('das ist evolution', evolutionJson);
         let pokemonText = speciesJson.flavor_text_entries[6];
         let moves = responseAsJson.moves;
-        console.log('das ist moves', moves);
         let pokemon = responseAsJson.name;
         let pokemonWeight = responseAsJson.weight;
+        let pokemonHeight = responseAsJson.height;
         let stats = responseAsJson.stats;
-        let firstType = responseAsJson.types[0].type.name;
-        let secondType = responseAsJson.types[1]?.type.name; // das fragezeichen fragt ab ob die variable für jedes element existiert.
+        let types = responseAsJson.types;
+        console.log('das ist species', speciesJson);
 
         allPokemons.push({
             id: i + 1,
             pokemonName: pokemon,
-            type: [firstType, secondType || ''], // wenn secoondType undefinded ist soll einfach ein leerer string eingesetzt werden
+            type: types,
             moves: moves,
             text: pokemonText,
             stats: stats,
             weight: pokemonWeight,
+            height: pokemonHeight,
+            info: speciesJson,
         })
 
+        console.log(getStatsNameByLanguage(i));
 
         document.getElementById('pokemonContent').innerHTML += createPokemonCard(i);;
         stylePokemonCard(i);
@@ -67,7 +77,6 @@ function showImages(i, allPokemons) {
     if (allPokemons.id >= 650) {
         document.getElementById('pokemonImg').src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${allPokemons[i].id}.png`;
     } else {
-        // document.getElementById(`pokemonImg${i}`).src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${allPokemons[i].id}.gif`
         document.getElementById(`pokemonImg${i}`).src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home//${allPokemons[i].id}.png`;
     }
 }
@@ -75,25 +84,23 @@ function showImages(i, allPokemons) {
 
 function updateProgressBar(i, x) {
     let percent = allPokemons[i].stats[x].base_stat;
-    document.getElementById(`progressBar${x}`).innerHTML = `${percent} `;
-    document.getElementById(`progressBar${x}`).style = `width: ${percent}%;`;
+    document.getElementById(`percent${x}`).innerHTML = `${percent} `;
+    document.getElementById(`progressBar${x}`).style = `width: ${percent}%`;
 }
 
 
 function stylePokemonCard(i) {
-    // document.getElementById(`pokemonCard${i}`).style = (`background-color: ${colours[allPokemons[i].type[0]]}`);
-    document.getElementById(`pokemonCard${i}`).style = (`background: radial-gradient(circle, ${colours[allPokemons[i].type[0]]} 84%, rgba(252,252,252,0.9766500350140056) 100%);`);
-    document.getElementById(`firstPokemonType${i}`).style = (`background-color: ${colours[allPokemons[i].type[0]]}`);
-    document.getElementById(`secondPokemonType${i}`).style = (`background-color: ${colours[allPokemons[i].type[1]]}`);
+    for (let j = 0; j < allPokemons[i].type.length; j++) {
+        const type = allPokemons[i].type[j].type.name;
+        let id = document.getElementById(`typeOfPokemon${i}`);
+
+        id.innerHTML += /*html*/ `
+            <div id="typeColour${j}${i}" class="typeColour"><span>${type}</span></div>
+        `;
+
+        document.getElementById(`typeColour${j}${i}`).style = (`background-color: ${colours[allPokemons[i].type[j].type.name]}`);
+    }
 }
-
-
-Object.defineProperty(String.prototype, 'capitalize', {
-    value: function () {
-        return this.charAt(0).toUpperCase() + this.slice(1);
-    },
-    enumerable: false
-});
 
 
 function openPokedex() {
@@ -106,42 +113,44 @@ function closeFullCard() {
 }
 
 
+function swipeRight(i) {
+    if (i < allPokemons.length - 1) {
+        openFullInfo(i + 1);
+        stylePokemonCard(i);
+        showImages(i, allPokemons);
+    } else {
+        openFullInfo(0);
+        stylePokemonCard(i);
+        showImages(i, allPokemons);
+    }
+}
 
 
+function swipeLeft(i) {
+    if (i > 0) {
+        openFullInfo(i - 1);
+        stylePokemonCard(i);
+        showImages(i, allPokemons);
+    } else {
+        openFullInfo(allPokemons.length - 1);
+        stylePokemonCard(i);
+        showImages(i, allPokemons);
+    }
+}
 
 
+function filterNames() {
+    let search = document.getElementById('searchPokemon').value;
+    search = search.toLowerCase(); // Den input.value in kleinbuchstaben umwandeln
 
 
-// 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/'
-
-// async function loadPokemonNames() {
-//     let response = await fetch('https://pokeapi.co/api/v2/pokemon/');
-//     let responseAsJson = await response.json();
-//     console.log(responseAsJson);
-//     for (let i = 0; i < responseAsJson.results.length; i++) {
-//         const pokemon = responseAsJson.results[i];
-//         let content = document.getElementById('pokemonContent');
-
-//         allPokemons.push({
-//             id: i + 1,
-//             pokemonName: pokemon.name,
-//             type: [],
-//         })
-
-//         content.innerHTML += createPokemonCard(i);
-//     }
-// }
-
-
-        // document.getElementById(`typeOfPokemon${ i } `).innerHTML = '';
-        // for (let j = 0; j < 2; j++) {
-        //     const actualType = allPokemons[i].type[j];
-        //     document.getElementById(`typeOfPokemon${ i } `).innerHTML += ` < div id = "color${i}" > <span>${allPokemons[i].type[0]}</span> </div > `;
-        //     document.getElementById(`color${ i } `).style = (`background - color: ${ colours[actualType] } `);
-        // }
-        // document.getElementById(`typeOfPokemon${ i } `).innerHTML += ` < div id = "color${i}" > <span id='firstPokemonType${i}'>${allPokemons[i].type[0]}</span> <span></span> </div > `;
-        // document.getElementById(`typeOfPokemon${ i } `).innerHTML += ` < div id = "color${i}" > <span id='secondPokemonType${i}>${allPokemons[i]?.type[1]}</span> </div> `;
-
-
-// let responseImg = await fetch('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png');
-// let imgAsJson = await responseImg.json();
+    for (let i = 0; i < allPokemons.length; i++) {
+        let found = document.getElementById('foundedPokemon');
+        let item = allPokemons[i];
+        let foundedPokemon = item.pokemonName;
+        console.log(foundedPokemon);
+        if (foundedPokemon.toLowerCase().startsWith(search)) {
+            found.innerHTML += `<li>${foundedPokemon}</li>`;
+        }
+    }
+}

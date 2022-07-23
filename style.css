@@ -31,11 +31,21 @@ body {
 }
 
 .header img {
-    height: 100px;
+    width: 500px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.header input {
+    width: 300px;
+    border-radius: 10px;
+    border: unset;
 }
 
 #searchPokemon {
     height: 50px;
+    outline: none;
+    padding-left: 10px;
 }
 
 #pokemonContent {
@@ -46,12 +56,17 @@ body {
 }
 
 .pokemonCard {
+    background-color: rgba(0, 0, 0, 0.617);
+    /* background: linear-gradient(135deg, rgba(255,
+                255, 255, 0.1), rgba (255, 255, 255, 0));
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    border: 1px solig rgba(255, 255, 255, 0.18);
+    border-radius: 32px; */
     height: 300px;
     width: 450px;
     margin: 25px;
-    /* box-shadow: 5px 5px 26px 9px #ada8a8; */
-    box-shadow: 5px 5px 26px 9px #0af8f8;
-    border: solid 2px #0af8f8;
     border-top-right-radius: 50px;
     border-bottom-left-radius: 50px;
     border-bottom-right-radius: 20px;
@@ -62,6 +77,9 @@ body {
 .pokemonCard:hover {
     cursor: pointer;
     transform: scale(1.1);
+    border: solid 2px #8d00fe;
+    box-shadow: 5px 5px 26px 9px #8d00fe;
+    transition: 225ms ease-in-out;
 }
 
 .nr {
@@ -70,7 +88,7 @@ body {
     margin-right: 80px;
     margin-top: 20px;
     font-size: 30px;
-    color: rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 0.3);
 }
 
 .nr h2 {
@@ -91,6 +109,11 @@ body {
     justify-content: center;
 }
 
+.typeColour {
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
 .type {
     width: 200px;
     color: white;
@@ -99,7 +122,7 @@ body {
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    filter: drop-shadow(2px 4px 6px rgb(98, 96, 96));
+    filter: drop-shadow(2px 4px 6px rgba(255, 251, 251, 0.857));
 }
 
 .type span {
@@ -111,13 +134,11 @@ body {
     background-image: url(./img/Pokeball-PNG-Free-Download.png);
     height: 200px;
     margin-right: 10px;
-    filter: drop-shadow(30px 15px 25px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(30px 15px 25px rgba(255, 255, 255, 0.4));
     background-size: 350px;
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: bottom;
-    /* backdrop-filter: opacity(0.5);
-    border-radius: 100%; */
 }
 
 /*
@@ -138,8 +159,9 @@ body {
     margin: 60px;
     filter: contrast(1.5);
     border-radius: 50px;
-    box-shadow: 5px 5px 26px 9px #0af8f8;
-    border: solid 2px #0af8f8;
+    box-shadow: 5px 5px 26px 9px #8d00fe;
+    border: solid 4px #8d00fe;
+    height: fit-content;
 }
 
 .headerCard {
@@ -164,22 +186,19 @@ body {
     padding-right: 50px;
 }
 
-.typeOpenedCard {
-    height: 50px;
+.typeSvg {
     width: 50px;
     height: 50px;
-    width: 50px;
-    border-radius: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    filter: brightness(0.9);
+    border-radius: 100%;
+    margin-right: 10px;
+    filter: drop-shadow(6px 4px 5px rgba(0, 0, 0, 0.441));
 }
 
-.typeOpenedCard img {
+.typeSvg img {
     height: 30px;
-    width: 30px;
-    border-radius: 100%;
 }
 
 .rightArrow {
@@ -187,18 +206,26 @@ body {
     right: 10px;
 }
 
+.rightArrow:hover {
+    cursor: pointer;
+}
+
 .leftArrow {
     position: fixed;
     left: 10px;
 }
 
-#pokemonImgFullCard {
+.leftArrow:hover {
+    cursor: pointer;
+}
+
+.pokemonImgFullCard {
     width: 280px;
     transition: transform 225ms ease-in-out;
     z-index: 2;
 }
 
-#pokemonImgFullCard:hover {
+.pokemonImgFullCard:hover {
     cursor: pointer;
     transform: scale(1.3);
 }
@@ -239,14 +266,13 @@ body {
 }
 
 .progress {
-    width: 200px;
+    width: 150px;
     margin-right: 40px;
     margin-left: 40px;
     background-color: #b5bec7 !important;
 }
 
 .textField {
-    background: #aeaaaa;
     width: 400px;
     height: 260px;
     border-radius: 15px;
@@ -254,7 +280,6 @@ body {
     padding: 20px;
     font-size: 20px;
     border: solid 4px black;
-    filter: drop-shadow(5px 5px 10px #000);
 }
 
 #moveContainer {
@@ -292,18 +317,11 @@ h2::first-letter {
     text-transform: capitalize;
 }
 
-
-/* #pokedex {
-    min-height: 50vh;
-    background-color: #fb6c6c;
-    color: white;
-    padding: 24px;
+span::first-letter {
+    text-transform: capitalize;
 }
 
-.infoContainer {
-    background-color: white;
-    border-top-left-radius: 40px;
-    border-top-right-radius: 40px;
-    height: 100px;
-    margin-top: -40px;
-} */
+.infoFullcard {
+    overflow-y: auto;
+    margin-left: 20px;
+}
