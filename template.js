@@ -1,29 +1,33 @@
-function createPokemonCard(i) {
+function createPokemonCard() {
     let pokemonCards = document.getElementById('pokemonContent');
-    pokemonCards.innerHTML += /*html*/`
+    pokemonCards.innerHTML = '';
+    for (let i = 0; i < allPokemons.length; i++) {
+        pokemonCards.innerHTML += /*html*/`
+        <div class="pokemonCard" onclick="openFullInfo(${i})" id="pokemonCard${i}">
 
-    <div class="pokemonCard" onclick="openFullInfo(${i})" id="pokemonCard${i}">
-
-    <div class="nr">
-    <h2 class="idOfPokemon${i}" >#${allPokemons[i].id}</h2>
-    </div>
-
-    <div class="structure">
-
-        <div class="pokemonNamesandNr d-flex flex-column ms-5">
-            <span class="pokName">${allPokemons[i].pokemonName}</span>
-                 <div class="type text-white d-flex flex-column " id="typeOfPokemon${i}"></div>
+        <div class="nr">
+            <h2 class="idOfPokemon${i}">#${allPokemons[i].id}</h2>
         </div>
 
+        <div class="structure">
 
-        <div class="pokemonImg d-flex justify-content-end">
-            <img class="picture"  id="pokemonImg${i}">
+            <div class="pokemonNamesandNr d-flex flex-column ms-5">
+                <span class="pokName">${allPokemons[i].pokemonName}</span>
+                <div class="type text-white d-flex flex-column " id="typeOfPokemon${i}"></div>
+            </div>
+
+
+            <div class="pokemonImg d-flex justify-content-end">
+                <img class="picture" id="pokemonImg${i}">
+            </div>
+
         </div>
 
-    </div>
-
-    </div >
+        </div>
     `
+        createPokemonType(i);
+        showImages(i, allPokemons);
+    }
 }
 
 
@@ -64,10 +68,18 @@ function openFullInfo(i) {
 
             <div class="ContentContainer">
                 <div class="btns d-flex justify-content-around">
-                    <button class ="btn btn-info" onclick= "renderStats(${i})">Stats</button>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                    <button type="button" class="btn btn-outline-dark" onclick= "renderStats(${i})">Stats</button>
+                    <button type="button" class="btn btn-outline-dark" onclick= "renderPokemonText(${i})">About</button>
+                    <button type="button" class="btn btn-outline-dark" onclick= "renderMoves(${i})">Moves</button>
+                    <button type="button" class="btn btn-outline-dark" onclick= "renderInfo(${i})">Moves</button>
+                    <button type="button" class="btn btn-outline-dark" onclick= "renderEvolution(${i})">Evolution</button>
+                </div>
+
+                    <!-- <button class ="btn btn-info" onclick= "renderStats(${i})">Stats</button>
                     <button class ="btn btn-info" onclick= "renderPokemonText(${i})">About</button>
                     <button class ="btn btn-info" onclick= "renderMoves(${i})">Moves</button>
-                    <button class ="btn btn-info" onclick= "renderInfo(${i})">Info</button>
+                    <button class ="btn btn-info" onclick= "renderInfo(${i})">Info</button> -->
                     <!-- <button class ="btn btn-info" onclick= "renderEvolution(${i})">Evolution</button> -->
                 </div>
 
@@ -86,18 +98,60 @@ function openFullInfo(i) {
 }
 
 
-function createStats(i, x) {
+function createStats(i) {
     return /*html*/`
-    <div class="d-flex justify-content-between">
-        <div><h5>${allPokemons[i].stats[x].stat.name}</h5></div>
+    <table class="stats">
+        <tbody>
+            <tr>
+            <td><div><h5>${allPokemons[i].stats[0].stat.name}</h5></div></td>
+            <td> <div>${allPokemons[i].stats[0].base_stat}</div></td>
+            <td><div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%" id="progressBar${0}"></div>
+            </div></td>
+            </tr>
 
-        <div id="percent${x}"></div>
-        
-        <div class="progress">
-            <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%" id="progressBar${x}"></div>
-        </div>
+            <tr>
+            <td><div><h5>${allPokemons[i].stats[1].stat.name}</h5></div></td>
+            <td> <div>${allPokemons[i].stats[1].base_stat}</div></td>
+            <td><div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%" id="progressBar${1}"></div>
+            </div></td>
+            </tr>
 
-    </div>
+            <tr>
+             <td><div><h5>${allPokemons[i].stats[2].stat.name}</h5></div></td>
+            <td> <div>${allPokemons[i].stats[2].base_stat}</div></td>
+            <td><div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%" id="progressBar${2}"></div>
+            </div></td>
+            </tr>
+
+            <tr>
+            <td><div><h5>${allPokemons[i].stats[3].stat.name}</h5></div></td>
+            <td> <div>${allPokemons[i].stats[3].base_stat}</div></td>
+            <td><div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%" id="progressBar${3}"></div>
+            </div></td>
+            </tr>
+
+            <tr>
+            <td><div><h5>${allPokemons[i].stats[4].stat.name}</h5></div></td>
+            <td> <div>${allPokemons[i].stats[4].base_stat}</div></td>
+            <td><div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%" id="progressBar${4}"></div>
+            </div></td>
+            </tr>
+
+            <tr>
+            <td><div><h5>${allPokemons[i].stats[5].stat.name}</h5></div></td>
+            <td> <div>${allPokemons[i].stats[5].base_stat}</div></td>
+            <td><div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%" id="progressBar${5}"></div>
+            </div></td>
+            </tr>
+
+        </tbody>
+</table>
  `;
 }
 
@@ -118,8 +172,8 @@ function renderPokemonTypes(i) {
 
 function renderStats(i) {
     document.getElementById(`currentInformations`).innerHTML = '';
+    document.getElementById(`currentInformations`).innerHTML += createStats(i);
     for (let x = 0; x < 6; x++) {
-        document.getElementById(`currentInformations`).innerHTML += createStats(i, x);
         updateProgressBar(i, x);
     }
 }
@@ -176,7 +230,7 @@ function renderEvolution(i) {
     for (let x = 0; x < allPokemons[i].evolution.chain.evolves_to.length; x++) {
         const actualEvolution = allPokemons[i].evolution.chain.evolves_to[x];
         evolution.innerHTML += /*html*/ `
-            <span>${actualEvolution.species.name}</span>
+            <span id="evolveName${i}"></span>
             <div id ="evolutionImage"></div>
         `
     }
@@ -203,22 +257,13 @@ function renderEggGroup(i) {
 }
 
 
-function styleFullCard(i) {
-    let idsToStyle = document.querySelectorAll("#colorofOpenedCard, #curvedLine");
-    for (let y = 0; y < allPokemons[i].type.length; y++) {
-        idsToStyle[y].style = (`background-color: ${colours[allPokemons[i].type[0].type.name]}`);
-    }
-    document.getElementById(`pokemonImgFullCard${i}`).src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home//${allPokemons[i].id}.png`;
-}
-
-
-function changeToShiny(i) {
-    document.getElementById(`pokemonImgFullCard${i}`).src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/${allPokemons[i].id}.png`
-}
-
-
 function getStatsNameByLanguage(i) {
     return allPokemons[i].info.names.find((n) => n.language.name == language);
 }
 
-        // https://dev.to/mcube25/7-javascript-array-methods-you-should-know-7mf
+// https://dev.to/mcube25/7-javascript-array-methods-you-should-know-7mf
+
+
+function getEvolve(i, x) {
+
+}
