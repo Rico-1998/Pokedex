@@ -120,3 +120,24 @@ async function loadStats() {
 function getStatsNameByLanguage() {
     return allPokemons[i].names.find(n => n.language.name === language);
 }
+
+
+function showCleanPokedex() {
+    openPokedex();
+    document.body.style.cssText = ('background-image: unset; background-color: rgb(91 83 83 / 50%)');
+    styleCleanPokedex();
+}
+
+
+function styleCleanPokedex() {
+    let cardCollection = document.getElementsByClassName('pokemonCard');
+    for (let i = 0; i < allPokemons.length; i++) {
+        let nameCollection = document.getElementsByClassName('pokName');
+        document.getElementsByClassName('nr')[i].style = ('color: rgb(26 25 25 / 30%)');
+        cardCollection[i].style = ('background-color: ghostwhite');
+        nameCollection[i].style = ('color: black');
+        document.getElementById(`pokemonCard${i}`).classList.remove("pokemonCard");
+        document.getElementById(`pokemonCard${i}`).classList.add("cleanCard");
+        document.getElementById(`pokemonImg${i}`).classList.add("cleanPicture");
+    }
+}

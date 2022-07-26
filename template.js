@@ -6,7 +6,7 @@ function createPokemonCard() {
         <div class="pokemonCard" onclick="openFullInfo(${i})" id="pokemonCard${i}">
 
         <div class="nr">
-            <h2 class="idOfPokemon${i}">#${allPokemons[i].id}</h2>
+            <h2 class="idOfPokemon">#${allPokemons[i].id}</h2>
         </div>
 
         <div class="structure">
@@ -68,19 +68,14 @@ function openFullInfo(i) {
 
             <div class="ContentContainer">
                 <div class="btns d-flex justify-content-around">
-                <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
                     <button type="button" class="btn btn-outline-dark" onclick= "renderStats(${i})">Stats</button>
                     <button type="button" class="btn btn-outline-dark" onclick= "renderPokemonText(${i})">About</button>
                     <button type="button" class="btn btn-outline-dark" onclick= "renderMoves(${i})">Moves</button>
-                    <button type="button" class="btn btn-outline-dark" onclick= "renderInfo(${i})">Moves</button>
+                    <button type="button" class="btn btn-outline-dark" onclick= "renderInfo(${i})">Info</button>
                     <button type="button" class="btn btn-outline-dark" onclick= "renderEvolution(${i})">Evolution</button>
                 </div>
 
-                    <!-- <button class ="btn btn-info" onclick= "renderStats(${i})">Stats</button>
-                    <button class ="btn btn-info" onclick= "renderPokemonText(${i})">About</button>
-                    <button class ="btn btn-info" onclick= "renderMoves(${i})">Moves</button>
-                    <button class ="btn btn-info" onclick= "renderInfo(${i})">Info</button> -->
-                    <!-- <button class ="btn btn-info" onclick= "renderEvolution(${i})">Evolution</button> -->
                 </div>
 
                 <div class="currentInformations">
@@ -225,15 +220,16 @@ function renderInfo(i) {
 
 function renderEvolution(i) {
     document.getElementById(`currentInformations`).innerHTML = '';
-    document.getElementById(`currentInformations`).innerHTML += /*html*/` <div id="evolution"></div> `
-    let evolution = document.getElementById('evolution');
-    for (let x = 0; x < allPokemons[i].evolution.chain.evolves_to.length; x++) {
-        const actualEvolution = allPokemons[i].evolution.chain.evolves_to[x];
-        evolution.innerHTML += /*html*/ `
+    document.getElementById(`currentInformations`).innerHTML += /*html*/` <div id="evolution${i}"></div> `
+    let evolution = document.getElementById(`evolution${i}`);
+    // for (let x = 0; x < allPokemons[i].length; x++) {
+    evolution.innerHTML += /*html*/ `
             <span id="evolveName${i}"></span>
-            <div id ="evolutionImage"></div>
+            <img id ="evolutionImage${i}">
+            <span>test</span>
         `
-    }
+    getEvolve(i);
+    // }
 }
 
 
@@ -264,6 +260,19 @@ function getStatsNameByLanguage(i) {
 // https://dev.to/mcube25/7-javascript-array-methods-you-should-know-7mf
 
 
-function getEvolve(i, x) {
+function getEvolve(i) {
+    let currentEvolve = allPokemons[i].evolution.chain.evolves_to;
+    if (currentEvolve.length <= 1) {
+        let currentName = allPokemons[i].evolution.chain.species.name;
+        showEvolveImg(currentName, i);
+        console.log(currentName);
+    }
 
+}
+
+
+function showEvolveImg(currentName, i) {
+    if (allPokemons[i].pokemonName === currentName) {
+        document.getElementById(`evolutionImage${i}`).src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home//${allPokemons[i].id}.png`;
+    }
 }

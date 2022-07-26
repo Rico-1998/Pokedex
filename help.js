@@ -1,5 +1,6 @@
 function openPokedex() {
     document.getElementById('overlay').style = ('display: none');
+    document.body.classList.remove('hidden');
 }
 
 
@@ -63,7 +64,7 @@ function showImages(i, allPokemons) {
 function updateProgressBar(i, x) {
     let percent = allPokemons[i].stats[x].base_stat;
     document.getElementById(`progressBar${x}`).style = `width: ${percent}%`;
-    // document.getElementsById(`progressBar${0}`).style = `background-color: ${colours[allPokemons[i].type[0].type.name]} !Important`;
+    // document.getElementsById(`progressBar${x}}`).style = `(background-color: ${colours[allPokemons[i].type[0].type.name]} !Important)`;
 }
 
 
@@ -90,6 +91,6 @@ async function getJsons(i) {
     let speciesJson = await speciesResponse.json();
     let evolution = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${i + 1}`);
     let evolutionJson = await evolution.json();
-    console.log('das ist evolution', evolutionJson);
+    // console.log('das ist evolution', evolutionJson);
     buildArrayOfPokemon(responseAsJson, speciesJson, evolutionJson);
 }

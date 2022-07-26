@@ -11,6 +11,9 @@ body {
     background-attachment: fixed;
 }
 
+.hidden {
+    overflow: hidden;
+}
 
 .loadingScreen {
     border: 16px solid #f3f3f3;
@@ -61,6 +64,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.decide {
+    width: 500px;
 }
 
 .header img {
@@ -385,6 +392,11 @@ body {
 
 #moveContainer::-webkit-scrollbar {
     width: 20px;
+}
+
+.infoContainer {
+    border: solid 3px rgba(0, 0, 0, 0.2);
+    margin: 0 10px;
 }
 
 ::-webkit-scrollbar-track {
