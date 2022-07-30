@@ -9,10 +9,11 @@ function closeFullCard() {
 }
 
 
-function buildArrayOfPokemon(responseAsJson, speciesJson, evolutionJson) {
+function buildArrayOfPokemon(responseAsJson, speciesJson) {
     return allPokemons.push({
-        id: responseAsJson.id,
+        id: speciesJson.id,
         pokemonName: responseAsJson.name,
+        pokemonImg: responseAsJson.sprites.other.home.front_default,
         type: responseAsJson.types,
         moves: responseAsJson.moves,
         text: speciesJson.flavor_text_entries[6],
@@ -21,7 +22,6 @@ function buildArrayOfPokemon(responseAsJson, speciesJson, evolutionJson) {
         height: responseAsJson.height,
         info: speciesJson,
         mainInfo: responseAsJson,
-        evolution: evolutionJson,
     })
 }
 
@@ -29,12 +29,10 @@ function buildArrayOfPokemon(responseAsJson, speciesJson, evolutionJson) {
 function swipeRight(i) {
     if (i < allPokemons.length - 1) {
         openFullInfo(i + 1);
-        createPokemonType(i);
-        showImages(i, allPokemons);
+        // showImages(i, allPokemons);
     } else {
         openFullInfo(0);
-        createPokemonType(i);
-        showImages(i, allPokemons);
+        // showImages(i, allPokemons);
     }
 }
 
@@ -42,29 +40,30 @@ function swipeRight(i) {
 function swipeLeft(i) {
     if (i > 0) {
         openFullInfo(i - 1);
-        createPokemonType(i);
-        showImages(i, allPokemons);
+        // showImages(i, allPokemons);
     } else {
         openFullInfo(allPokemons.length - 1);
-        createPokemonType(i);
-        showImages(i, allPokemons);
+        // showImages(i, allPokemons);
     }
 }
 
 
-function showImages(i, allPokemons) {
-    if (allPokemons.id >= 650) {
-        document.getElementById('pokemonImg').src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${allPokemons[i].id}.png`;
-    } else {
-        document.getElementById(`pokemonImg${i}`).src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home//${allPokemons[i].id}.png`;
-    }
-}
+// function showImages(i, allPokemons) {
+// if (allPokemons.id >= 650) {
+//     document.getElementById('pokemonImg').src = `${allPokemons[i].mainInfo.sprites.other.dream_world.front_default}`;
+// } else {
+//     document.getElementById(`pokemonImg${i}`).src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home//${allPokemons[i].id}.png`;
+// }
+// }
 
 
 function updateProgressBar(i, x) {
     let percent = allPokemons[i].stats[x].base_stat;
-    document.getElementById(`progressBar${x}`).style = `width: ${percent}%`;
-    // document.getElementsById(`progressBar${x}}`).style = `(background-color: ${colours[allPokemons[i].type[0].type.name]} !Important)`;
+    document.getElementById(`progressBar${x}`).style.cssText = `width: ${percent}% !important`;
+    let bar = document.getElementsByClassName('progress-bar-striped');
+    for (let y = 0; y < bar.length; y++) {
+        bar[x].style.cssText = (`background-image: linear-gradient(45deg, ${colours[allPokemons[i].type[0].type.name]} 25%,white 50%,${colours[allPokemons[i].type[0].type.name]} 50%); !important ; width: ${percent}px; !Important`);
+    }
 }
 
 
@@ -73,12 +72,20 @@ function styleFullCard(i) {
     for (let y = 0; y < allPokemons[i].type.length; y++) {
         idsToStyle[y].style = (`background-color: ${colours[allPokemons[i].type[0].type.name]}`);
     }
-    document.getElementById(`pokemonImgFullCard${i}`).src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home//${allPokemons[i].id}.png`;
+    document.getElementById(`pokemonImgFullCard${i}`).src = `${allPokemons[i].mainInfo.sprites.other.home.front_default}`;
 }
 
 
 function changeToShiny(i) {
-    document.getElementById(`pokemonImgFullCard${i}`).src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/${allPokemons[i].id}.png`
+    if (document.getElementById(`pokemonImgFullCard${i}`).src == `${allPokemons[i].mainInfo.sprites.other.home.front_default}`) {
+        document.getElementById(`pokemonImgFullCard${i}`).src = `${allPokemons[i].mainInfo.sprites.other.home.front_shiny}`;
+        document.getElementById(`pokemonImgFullCard${i}`).classList.add('slide-in-top');
+    } else if (document.getElementById(`pokemonImgFullCard${i}`).src == `${allPokemons[i].mainInfo.sprites.other.home.front_shiny}`) {
+        document.getElementById(`pokemonImgFullCard${i}`).src = `${allPokemons[i].mainInfo.sprites.other.home.front_default}`;
+        document.getElementById(`pokemonImgFullCard${i}`).classList.remove('slide-in-top');
+        document.getElementById(`pokemonImgFullCard${i}`).classList.add('slide-in-bck-center');
+    }
+
 }
 
 
@@ -89,8 +96,39 @@ async function getJsons(i) {
 
     let speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i + 1}`);
     let speciesJson = await speciesResponse.json();
-    let evolution = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${i + 1}`);
-    let evolutionJson = await evolution.json();
-    // console.log('das ist evolution', evolutionJson);
-    buildArrayOfPokemon(responseAsJson, speciesJson, evolutionJson);
+    // console.log(speciesJson);
+    buildArrayOfPokemon(responseAsJson, speciesJson);
+}
+
+
+async function getEvolution(i) {
+    let url = allPokemons[i].info.evolution_chain.url;
+    let evolution = await fetch(`${url}`);
+    currentPokemonEvolution = await evolution.json();
+    console.log(currentPokemonEvolution);
+}
+
+
+function checkEvo() {
+    if (currentPokemonEvolution.chain.evolves_to.length >= 1) {
+
+        let currentPokemon = allPokemons.find(n => {
+            return n.pokemonName === currentPokemonEvolution.chain.evolves_to[0].species.name;
+        });
+        document.getElementById(`secondEvolution`).src = currentPokemon.mainInfo.sprites.other.dream_world.front_default;
+
+    } else {
+        document.getElementById(`secondEvolution`).innerHTML = '';
+    }
+
+    if (currentPokemonEvolution.chain.evolves_to.length >= 1) {
+
+        let currentPokemon = allPokemons.find(n => {
+            return n.pokemonName === currentPokemonEvolution.chain.evolves_to[0].evolves_to[0].species.name;
+        });
+        document.getElementById(`thirdEvolution`).src = currentPokemon.mainInfo.sprites.other.dream_world.front_default;
+
+    } else {
+        document.getElementById(`thirdEvolution`).innerHTML = '';
+    } return
 }

@@ -1,11 +1,44 @@
-.cleanCard {
-    width: 450px;
-    margin: 25px;
-    transition: transform 225ms ease-in-out;
-
+body {
+    background-image: unset;
+    background-color: rgb(91 83 83 / 50%);
 }
 
-.cleanCard:hover {
+.header img {
+    width: 500px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.header input {
+    width: 300px;
+    border-radius: 10px;
+    border: unset;
+}
+
+#searchPokemon {
+    height: 50px;
+    outline: none;
+    padding-left: 10px;
+}
+
+#pokemonContent {
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.pokemonCard {
+    background-color: ghostwhite;
+    color: black;
+    width: 450px;
+    padding: 20px;
+    margin: 25px;
+    transition: transform 225ms ease-in-out;
+    border-radius: 25px;
+}
+
+.pokemonCard:hover {
     cursor: pointer;
     transform: scale(1.1);
     border: solid 2px #121212;
@@ -13,12 +46,35 @@
     transition: 225ms ease-in-out;
 }
 
-.cleanPicture {
+.nr h2 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.structure {
+    display: flex;
+}
+
+.picture {
     background-image: url(./img/Pokeball-PNG-Free-Download.png);
-    height: 165px;
-    margin-right: 10px;
+    width: 200px;
+    object-fit: cover;
     filter: drop-shadow(30px 15px 25px rgba(255, 255, 255, 0.4));
-    background-size: 270px;
+    background-size: 350px;
     background-repeat: no-repeat;
     background-position-y: bottom;
+}
+
+.type {
+    filter: drop-shadow(2px 4px 6px rgba(255, 251, 251, 0.857));
+    font-size: 30px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.pokemonImg {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }

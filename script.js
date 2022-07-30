@@ -2,6 +2,7 @@ let allPokemons = [];
 let pokemonStats = [];
 let language = 'en';
 let limit = 20;
+let currentPokemonEvolution = [];
 console.log('Das ist das Array', allPokemons);
 
 const colours = {
@@ -26,49 +27,47 @@ const colours = {
 };
 
 
-function loadPokemon() {
-    loadPokemonNames();
-}
-// async function loadPokemon() {
-//     await loadPokemonNames();
-// }
-
-
-async function loadPokemonNames() {
+async function loadPokedex() {
     for (let i = 0; i < limit; i++) {
         await getJsons(i);
     }
-    createPokemonCard();
-}
-
-
-function createPokemonType(i) {
-    let id = document.getElementById(`typeOfPokemon${i}`);
-    id.innerHTML = '';
-    for (let j = 0; j < allPokemons[i].type.length; j++) {
-        const type = allPokemons[i].type[j].type.name;
-        id.innerHTML += /*html*/ `
-            <div id="typeColour${j}${i}" class="typeColour"><span>${type}</span></div>
-        `;
-
-        document.getElementById(`typeColour${j}${i}`).style = (`background-color: ${colours[allPokemons[i].type[j].type.name]}`);
-    }
+    renderPokemonCard();
 }
 
 
 function filterNames() {
+    let actualPokemon = [];
     let search = document.getElementById('searchPokemon').value;
     search = search.toLowerCase(); // Den input.value in kleinbuchstaben umwandeln
+    console.log(search);
+    getActualPokemonForSearch(search);
+}
 
 
-    for (let i = 0; i < allPokemons.length; i++) {
-        let found = document.getElementById('foundedPokemon');
-        let item = allPokemons[i];
-        let foundedPokemon = item.pokemonName;
-        console.log(foundedPokemon);
-        if (foundedPokemon.toLowerCase().startsWith(search)) {
-            found.innerHTML += `<li>${foundedPokemon}</li>`;
+function getActualPokemonForSearch(search, actualPokemon) {
+    if (search.length === 0) {
+        renderPokemonCard();
+    } else {
+        for (let j = 0; j < allPokemons.length; j++) {
+            if (isNaN(search)) {
+                checkForPokemon(j, search, actualPokemon);
+            }
         }
+    }
+}
+
+function checkForPokemon(j, search, actualPokemon) {
+    let actualName = allPokemons[j].pokemonName;
+    if (actualName.toLowerCase().includes(search)) {
+        actualPokemon = allPokemons[j];
+        let foundedPokemon = document.getElementById('foundedPokemon');
+        let i = actualPokemon.id - 1
+        let pokemonName = actualName.pokemonName;
+        let pokemonImg = allPokemons[i].mainInfo.sprites.other.dream_world.front_default;
+        foundedPokemon.innerHTML = ''
+        foundedPokemon.innerHTML += createPokemonCard(i, actualPokemon, pokemonName);
+        renderPokemonTypeColour(i, actualPokemon, pokemonName);
+        // showImages(i, actualPokemon, pokemonName);
     }
 }
 
@@ -95,7 +94,7 @@ async function loadMorePokemons() {
     for (let i = allPokemons.length + 1; i < limit; i++) {
         await getJsons(i);
     }
-    createPokemonCard();
+    renderPokemonCard();
     isLoading = false;
 }
 
@@ -113,8 +112,8 @@ async function loadStats() {
         let url = `https://pokeapi.co/api/v2/stat/` + i;
         promises.push(fetchUrl(url)); //pusht alle Serveranfragen in ein Array
     }
-    // resolved all promises simultaneously
-    pokemonStats = await Promise.all(promises); // resolved alle promises parallel und pusht diese in das leere Array z.B typesOfPokemon
+    pokemonStats = await Promise.all(promises);
+    // alle funktionen die ein await brauchen zum bsp fetch url werden mit promise abgewartet also brauch man nicht bei allem await schreiben sondern nur einmal promise.all(promise)
 }
 
 function getStatsNameByLanguage() {
@@ -123,21 +122,8 @@ function getStatsNameByLanguage() {
 
 
 function showCleanPokedex() {
+    document.getElementById('stylesheet').href = 'cleanCard.css';
     openPokedex();
-    document.body.style.cssText = ('background-image: unset; background-color: rgb(91 83 83 / 50%)');
-    styleCleanPokedex();
 }
 
 
-function styleCleanPokedex() {
-    let cardCollection = document.getElementsByClassName('pokemonCard');
-    for (let i = 0; i < allPokemons.length; i++) {
-        let nameCollection = document.getElementsByClassName('pokName');
-        document.getElementsByClassName('nr')[i].style = ('color: rgb(26 25 25 / 30%)');
-        cardCollection[i].style = ('background-color: ghostwhite');
-        nameCollection[i].style = ('color: black');
-        document.getElementById(`pokemonCard${i}`).classList.remove("pokemonCard");
-        document.getElementById(`pokemonCard${i}`).classList.add("cleanCard");
-        document.getElementById(`pokemonImg${i}`).classList.add("cleanPicture");
-    }
-}
