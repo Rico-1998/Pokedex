@@ -5,7 +5,10 @@ function openPokedex() {
 
 
 function closeFullCard() {
-    document.getElementById('openedCard').innerHTML = ``;
+    document.body.style = ('overflow: auto')
+    setTimeout(function () {
+        document.getElementById('openedCard').innerHTML = ``;
+    }, 200)
 }
 
 
@@ -29,10 +32,8 @@ function buildArrayOfPokemon(responseAsJson, speciesJson) {
 function swipeRight(i) {
     if (i < allPokemons.length - 1) {
         openFullInfo(i + 1);
-        // showImages(i, allPokemons);
     } else {
         openFullInfo(0);
-        // showImages(i, allPokemons);
     }
 }
 
@@ -40,21 +41,10 @@ function swipeRight(i) {
 function swipeLeft(i) {
     if (i > 0) {
         openFullInfo(i - 1);
-        // showImages(i, allPokemons);
     } else {
         openFullInfo(allPokemons.length - 1);
-        // showImages(i, allPokemons);
     }
 }
-
-
-// function showImages(i, allPokemons) {
-// if (allPokemons.id >= 650) {
-//     document.getElementById('pokemonImg').src = `${allPokemons[i].mainInfo.sprites.other.dream_world.front_default}`;
-// } else {
-//     document.getElementById(`pokemonImg${i}`).src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home//${allPokemons[i].id}.png`;
-// }
-// }
 
 
 function updateProgressBar(i, x) {
@@ -116,19 +106,42 @@ function checkEvo() {
             return n.pokemonName === currentPokemonEvolution.chain.evolves_to[0].species.name;
         });
         document.getElementById(`secondEvolution`).src = currentPokemon.mainInfo.sprites.other.dream_world.front_default;
+        document.getElementById('level').innerHTML += /*html*/` <span>Level: </span> ${currentPokemonEvolution.chain.evolves_to[0].evolution_details[0].min_level} `;
 
     } else {
         document.getElementById(`secondEvolution`).innerHTML = '';
+        document.getElementById('level').innerHTML = '';
     }
 
-    if (currentPokemonEvolution.chain.evolves_to.length >= 1) {
+    if (currentPokemonEvolution.chain.evolves_to[0].evolves_to.length >= 1) {
 
         let currentPokemon = allPokemons.find(n => {
             return n.pokemonName === currentPokemonEvolution.chain.evolves_to[0].evolves_to[0].species.name;
         });
         document.getElementById(`thirdEvolution`).src = currentPokemon.mainInfo.sprites.other.dream_world.front_default;
+        document.getElementById('level2').innerHTML += /*html*/` <span>Level: </span> ${currentPokemonEvolution.chain.evolves_to[0].evolves_to[0].evolution_details[0].min_level} `;
 
     } else {
         document.getElementById(`thirdEvolution`).innerHTML = '';
+        document.getElementById('level2').innerHTML = '';
+
     } return
 }
+
+
+function getStatsNameByLanguage() {
+    return allPokemons[i].names.find(n => n.language.name === language);
+}
+
+
+function showCleanPokedex() {
+    document.getElementById('stylesheet').href = 'cleanCard.css';
+    openPokedex();
+}
+
+
+async function fetchUrl(url) {
+    let response = await fetch(url);
+    return (currentResponse = await response.json());
+}
+

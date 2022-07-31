@@ -22,25 +22,24 @@
 
 </head>
 
-<body onload="loadPokedex()" onscroll="lazyLoad()" class="">
+<body onload="loadPokedex()" onscroll="lazyLoad()" class="hidden">
 
     <!-- ###################overlay#################### -->
-    <div class="hidden d-none" id="overlay">
-        <div class="btn-group btn-group-lg decide" role="group" aria-label="Large button group">
+    <div class="overlay" id="overlay">
+        <div class="overlayImg"><img src="./img/background-overlay.png"></div>
+        <div class=" buttonRow btn-group btn-group-lg decide" role="group" aria-label="Large button group">
             <button type="button" onclick="showCleanPokedex()" class="btn btn-outline-dark">Clean Pokedex</button>
             <button type="button" onclick="openPokedex()" class="btn btn-outline-dark">Own Creation</button>
         </div>
-        <!-- <a href=""><img src="https://www.animatedimages.org/data/media/1446/animated-pokemon-image-0005.gif" border="0"
-                alt="animated-pokemon-image-0005" /></a> -->
-    </div>
 
-    <!-- #######################LoadingScreen##################  -->
-    <div class="loadingScreen d-none" id="loadingScreen"></div>
+    </div>
 
     <!-- ########################Header###################### -->
 
     <div class="header d-flex flex-column align-items-center ">
-        <img src="./img/header2.png">
+        <div>
+            <img class="pokemonHeaderImg" src="./img/header2.png">
+        </div>
         <input type="text" id="searchPokemon" placeholder="Suchen..." onkeyup="filterNames()">
 
         <div class="containerFoundedPok">
@@ -49,7 +48,7 @@
     </div>
     <!-- ######################Pokedex####################### -->
     <div id="openedCard"></div>
-    <div class="pokedex">
+    <div class="pokedex ">
         <div id="pokemonContent"></div>
     </div>
 

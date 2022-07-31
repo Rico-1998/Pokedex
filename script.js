@@ -39,13 +39,14 @@ function filterNames() {
     let actualPokemon = [];
     let search = document.getElementById('searchPokemon').value;
     search = search.toLowerCase(); // Den input.value in kleinbuchstaben umwandeln
-    console.log(search);
-    getActualPokemonForSearch(search);
+    getActualPokemonForSearch(search, actualPokemon);
 }
 
 
 function getActualPokemonForSearch(search, actualPokemon) {
     if (search.length === 0) {
+        document.getElementById('foundedPokemon').classList.add('d-none');
+        document.getElementById('pokemonContent').classList.remove('d-none');
         renderPokemonCard();
     } else {
         for (let j = 0; j < allPokemons.length; j++) {
@@ -56,19 +57,25 @@ function getActualPokemonForSearch(search, actualPokemon) {
     }
 }
 
+
 function checkForPokemon(j, search, actualPokemon) {
     let actualName = allPokemons[j].pokemonName;
     if (actualName.toLowerCase().includes(search)) {
+        document.getElementById('pokemonContent').classList.add('d-none');
+        document.getElementById('foundedPokemon').classList.remove('d-none');
         actualPokemon = allPokemons[j];
         let foundedPokemon = document.getElementById('foundedPokemon');
-        let i = actualPokemon.id - 1
+        let i = actualPokemon.id - 1;
         let pokemonName = actualName.pokemonName;
-        let pokemonImg = allPokemons[i].mainInfo.sprites.other.dream_world.front_default;
-        foundedPokemon.innerHTML = ''
-        foundedPokemon.innerHTML += createPokemonCard(i, actualPokemon, pokemonName);
-        renderPokemonTypeColour(i, actualPokemon, pokemonName);
-        // showImages(i, actualPokemon, pokemonName);
+        let pokemonImg = actualName.pokemonImg;
+        showSearchedPokemon(i, actualPokemon, pokemonName, pokemonImg, foundedPokemon);
     }
+}
+
+
+function showSearchedPokemon(i, actualPokemon, pokemonName, pokemonImg, foundedPokemon) {
+    foundedPokemon.innerHTML += createPokemonCard(i, actualPokemon, pokemonName, pokemonImg);
+    renderPokemonTypeColour(i, actualPokemon, pokemonName, pokemonImg);
 }
 
 
@@ -90,19 +97,13 @@ function lazyLoad() {
     }
 }
 
+
 async function loadMorePokemons() {
     for (let i = allPokemons.length + 1; i < limit; i++) {
         await getJsons(i);
     }
     renderPokemonCard();
     isLoading = false;
-}
-
-
-
-async function fetchUrl(url) {
-    let response = await fetch(url);
-    return (currentResponse = await response.json());
 }
 
 
@@ -114,16 +115,6 @@ async function loadStats() {
     }
     pokemonStats = await Promise.all(promises);
     // alle funktionen die ein await brauchen zum bsp fetch url werden mit promise abgewartet also brauch man nicht bei allem await schreiben sondern nur einmal promise.all(promise)
-}
-
-function getStatsNameByLanguage() {
-    return allPokemons[i].names.find(n => n.language.name === language);
-}
-
-
-function showCleanPokedex() {
-    document.getElementById('stylesheet').href = 'cleanCard.css';
-    openPokedex();
 }
 
 

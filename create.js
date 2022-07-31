@@ -8,9 +8,9 @@ function createPokemonCard(i) {
 
     <div class="structure">
 
-        <div class="pokemonNamesandNr d-flex flex-column ms-5">
+        <div class="pokemonNamesandNr d-flex flex-column ">
             <span class="pokName">${allPokemons[i].pokemonName}</span>
-            <div class="type text-white " id="typeOfPokemon${i}"></div>
+            <div class="type text-white" id="typeOfPokemon${i}"></div>
         </div>
 
 
@@ -32,7 +32,7 @@ function createFullCard(i) {
 
         <div class="openedCard" id="colorofOpenedCard">
             <div class="headerCard">
-                <img id="swingOut" src="./img/left-arrow.png" onclick="closeFullCard()">
+                <img  src="./img/left-arrow.png" onclick="closeFullCard()">
             </div>
 
             <div class="fullInformation">
@@ -84,11 +84,12 @@ function createFullCard(i) {
 
 function createStats(i) {
     return /*html*/`
+    <div class="statsContainer">
     <table class="stats">
         <tbody>
             <tr>
             <td><div><h5>${allPokemons[i].stats[0].stat.name}</h5></div></td>
-            <td> <div>${allPokemons[i].stats[0].base_stat}</div></td>
+            <td> <div class="statsNr">${allPokemons[i].stats[0].base_stat}</div></td>
             <td><div class="progress">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%" id="progressBar${0}"></div>
             </div></td>
@@ -96,7 +97,7 @@ function createStats(i) {
 
             <tr>
             <td><div><h5>${allPokemons[i].stats[1].stat.name}</h5></div></td>
-            <td> <div>${allPokemons[i].stats[1].base_stat}</div></td>
+            <td> <div class="statsNr">${allPokemons[i].stats[1].base_stat}</div></td>
             <td><div class="progress">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%" id="progressBar${1}"></div>
             </div></td>
@@ -104,7 +105,7 @@ function createStats(i) {
 
             <tr>
              <td><div><h5>${allPokemons[i].stats[2].stat.name}</h5></div></td>
-            <td> <div>${allPokemons[i].stats[2].base_stat}</div></td>
+            <td> <div class="statsNr">${allPokemons[i].stats[2].base_stat}</div></td>
             <td><div class="progress">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%" id="progressBar${2}"></div>
             </div></td>
@@ -112,7 +113,7 @@ function createStats(i) {
 
             <tr>
             <td><div><h5>${allPokemons[i].stats[3].stat.name}</h5></div></td>
-            <td> <div>${allPokemons[i].stats[3].base_stat}</div></td>
+            <td> <div class="statsNr">${allPokemons[i].stats[3].base_stat}</div></td>
             <td><div class="progress">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%" id="progressBar${3}"></div>
             </div></td>
@@ -120,7 +121,7 @@ function createStats(i) {
 
             <tr>
             <td><div><h5>${allPokemons[i].stats[4].stat.name}</h5></div></td>
-            <td> <div>${allPokemons[i].stats[4].base_stat}</div></td>
+            <td> <div class="statsNr">${allPokemons[i].stats[4].base_stat}</div></td>
             <td><div class="progress">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%" id="progressBar${4}"></div>
             </div></td>
@@ -128,7 +129,7 @@ function createStats(i) {
 
             <tr>
             <td><div><h5>${allPokemons[i].stats[5].stat.name}</h5></div></td>
-            <td> <div>${allPokemons[i].stats[5].base_stat}</div></td>
+            <td> <div class="statsNr">${allPokemons[i].stats[5].base_stat}</div></td>
             <td><div class="progress">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 25%" id="progressBar${5}"></div>
             </div></td>
@@ -136,6 +137,7 @@ function createStats(i) {
 
         </tbody>
 </table>
+</div>
  `;
 }
 
@@ -157,8 +159,10 @@ function createEggGroup(i) {
 function buildEvolution(i) {
     return /*html*/ `
             <span id="evolveName${i}"></span>
-            <img id ="firstEvolution" class="firstEvolution">
-            <img id ="secondEvolution" class="firstEvolution">
-            <img id ="thirdEvolution" class="firstEvolution">
+            <img id ="firstEvolution" class="evolution">
+            <div class="level"><span id="level"></span></div>
+            <img id ="secondEvolution" class="evolution">
+            <div class="level"><span id="level2"></span></div>
+            <img id ="thirdEvolution" class="evolution">
         `;
 }

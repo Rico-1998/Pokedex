@@ -4,12 +4,12 @@ function renderPokemonCard() {
     for (let i = 0; i < allPokemons.length; i++) {
         pokemonCards.innerHTML += createPokemonCard(i);
         renderPokemonTypeColour(i);
-        // showImages(i, allPokemons);
     }
 }
 
 
 function openFullInfo(i) {
+    document.body.style = ('overflow: hidden');
     let openedCard = document.getElementById(`openedCard`);
     openedCard.innerHTML = '';
     openedCard.innerHTML += createFullCard(i);
@@ -99,11 +99,11 @@ async function renderEvolution(i) {
     evolution.innerHTML += buildEvolution(i);
     currentPokemonEvolution = []; // das muss gemacht werden um das array zu leeren bei jedem onclick.
     await getEvolution(i);
-    createEvolution();
+    buildFirstEvo();
 }
 
 
-function createEvolution() {
+function buildFirstEvo() {
     let currentPokemon = allPokemons.find(n => {
         return n.pokemonName === currentPokemonEvolution.chain.species.name;
     });
