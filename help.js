@@ -145,3 +145,9 @@ async function fetchUrl(url) {
     return (currentResponse = await response.json());
 }
 
+function changeCSS() {
+    if (document.getElementById('stylesheet').href = 'style.css') {
+        document.body.classList.add('swirl-in-fwd');
+        document.getElementById('stylesheet').href = 'cleanCard.css';
+    }
+}

@@ -22,7 +22,7 @@
 
 </head>
 
-<body onload="loadPokedex()" onscroll="lazyLoad()" class="hidden">
+<body onload="loadPokedex()" onscroll="lazyLoad()" class="hidden ">
 
     <!-- ###################overlay#################### -->
     <div class="overlay" id="overlay">
@@ -39,7 +39,9 @@
     <div class="header d-flex flex-column align-items-center ">
         <div>
             <img class="pokemonHeaderImg" src="./img/header2.png">
+            <button onclick="changeCSS()">Change Style</button>
         </div>
+
         <input type="text" id="searchPokemon" placeholder="Suchen..." onkeyup="filterNames()">
 
         <div class="containerFoundedPok">

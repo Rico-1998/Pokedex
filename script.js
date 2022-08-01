@@ -47,6 +47,7 @@ function getActualPokemonForSearch(search, actualPokemon) {
     if (search.length === 0) {
         document.getElementById('foundedPokemon').classList.add('d-none');
         document.getElementById('pokemonContent').classList.remove('d-none');
+        document.getElementById('foundedPokemon').innerHTML = ''
         renderPokemonCard();
     } else {
         for (let j = 0; j < allPokemons.length; j++) {
