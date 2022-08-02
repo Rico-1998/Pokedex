@@ -218,6 +218,7 @@ body {
     top: 0;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .swing-in-top-fwd {
@@ -304,7 +305,6 @@ body {
 
 
 .openedCard {
-    margin: 60px;
     filter: contrast(1.5);
     border-radius: 50px;
     box-shadow: 5px 5px 26px 9px var(--cardColour);
@@ -616,11 +616,6 @@ span::first-letter {
         width: 300px;
     }
 
-    .pikachu {
-        width: 400px;
-        margin-top: 50px;
-    }
-
     .pokemonHeaderImg {
         width: 300px;
     }
@@ -649,6 +644,10 @@ span::first-letter {
         height: unset;
         border: unset;
         border-radius: unset;
+    }
+
+    .backgroundofFullCard {
+        align-items: unset;
     }
 
     .ContentContainer {
@@ -700,6 +699,11 @@ span::first-letter {
 
     .overlayImg img {
         width: 200px;
+    }
+
+    .pokemonImgFullCard {
+        margin-top: 30px;
+        width: 240px;
     }
 
     .buttonRow {

@@ -37,6 +37,8 @@ async function loadPokedex() {
 
 function filterNames() {
     let actualPokemon = [];
+    document.getElementById('pokemonContent').classList.add('d-none');
+    document.getElementById('foundedPokemon').innerHTML = '';
     let search = document.getElementById('searchPokemon').value;
     search = search.toLowerCase(); // Den input.value in kleinbuchstaben umwandeln
     getActualPokemonForSearch(search, actualPokemon);
@@ -45,13 +47,11 @@ function filterNames() {
 
 function getActualPokemonForSearch(search, actualPokemon) {
     if (search.length === 0) {
-        document.getElementById('foundedPokemon').classList.add('d-none');
-        document.getElementById('pokemonContent').classList.remove('d-none');
-        document.getElementById('foundedPokemon').innerHTML = ''
         renderPokemonCard();
+        document.getElementById('pokemonContent').classList.remove('d-none');
     } else {
         for (let j = 0; j < allPokemons.length; j++) {
-            if (isNaN(search)) {
+            if (search) {
                 checkForPokemon(j, search, actualPokemon);
             }
         }
@@ -62,21 +62,17 @@ function getActualPokemonForSearch(search, actualPokemon) {
 function checkForPokemon(j, search, actualPokemon) {
     let actualName = allPokemons[j].pokemonName;
     if (actualName.toLowerCase().includes(search)) {
-        document.getElementById('pokemonContent').classList.add('d-none');
-        document.getElementById('foundedPokemon').classList.remove('d-none');
+        // document.getElementById('pokemonContent').classList.add('d-none');
         actualPokemon = allPokemons[j];
-        let foundedPokemon = document.getElementById('foundedPokemon');
         let i = actualPokemon.id - 1;
-        let pokemonName = actualName.pokemonName;
-        let pokemonImg = actualName.pokemonImg;
-        showSearchedPokemon(i, actualPokemon, pokemonName, pokemonImg, foundedPokemon);
+        showSearchedPokemon(i);
     }
 }
 
 
-function showSearchedPokemon(i, actualPokemon, pokemonName, pokemonImg, foundedPokemon) {
-    foundedPokemon.innerHTML += createPokemonCard(i, actualPokemon, pokemonName, pokemonImg);
-    renderPokemonTypeColour(i, actualPokemon, pokemonName, pokemonImg);
+function showSearchedPokemon(i) {
+    document.getElementById('foundedPokemon').innerHTML += createPokemonCard(i);
+    renderPokemonTypeColour(i);
 }
 
 
