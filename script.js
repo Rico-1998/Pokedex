@@ -96,7 +96,7 @@ function lazyLoad() {
 
 
 async function loadMorePokemons() {
-    for (let i = allPokemons.length + 1; i < limit; i++) {
+    for (let i = allPokemons.length; i < limit; i++) {
         await getJsons(i);
     }
     renderPokemonCard();

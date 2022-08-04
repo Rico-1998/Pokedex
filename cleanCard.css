@@ -31,7 +31,7 @@ body {
 }
 
 .pokemonCard {
-    background-color: ghostwhite;
+    background-color: ghostwhite !important;
     color: black;
     width: 330px;
     padding: 20px;
