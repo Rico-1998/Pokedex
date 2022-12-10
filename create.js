@@ -28,15 +28,15 @@ function createPokemonCard(i) {
 function createFullCard(i) {
     return /*html*/`
 
-    <div class="backgroundofFullCard swing-in-top-fwd">
+    <div class="backgroundofFullCard" onclick="closeFullCard()">
 
-        <div class="openedCard" id="colorofOpenedCard">
+        <div class="openedCard" id="colorofOpenedCard" onclick="preventClosing(event)">
             <div class="headerCard">
                 <img  src="./img/left-arrow.png" onclick="closeFullCard()">
+                <span class="idOfPokemon${i}" >#${allPokemons[i].id}</span>
             </div>
 
             <div class="fullInformation">
-                <span class="idOfPokemon${i}" >#${allPokemons[i].id}</span>
 
                 <h2>${allPokemons[i].pokemonName}</h2>
 

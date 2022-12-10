@@ -3,7 +3,8 @@ let pokemonStats = [];
 let language = 'en';
 let limit = 20;
 let currentPokemonEvolution = [];
-console.log('Das ist das Array', allPokemons);
+
+
 
 const colours = {
     normal: '#A8A77A',
@@ -26,12 +27,23 @@ const colours = {
     fairy: '#D685AD',
 };
 
-
 async function loadPokedex() {
+    activateLoader();
     for (let i = 0; i < limit; i++) {
         await getJsons(i);
     }
     renderPokemonCard();
+    deactivateLoader();
+}
+
+function activateLoader() {
+    document.querySelector('.loaderBox').classList.remove('d-none');
+    document.body.style = 'overflow: hidden';
+}
+
+function deactivateLoader() {
+    document.querySelector('.loaderBox').classList.add('d-none');
+    document.body.style = 'overflow: auto';
 }
 
 
@@ -39,8 +51,7 @@ function filterNames() {
     let actualPokemon = [];
     document.getElementById('pokemonContent').classList.add('d-none');
     document.getElementById('foundedPokemon').innerHTML = '';
-    let search = document.getElementById('searchPokemon').value;
-    search = search.toLowerCase(); // Den input.value in kleinbuchstaben umwandeln
+    let search = document.getElementById('searchPokemon').value.toLowerCase();
     getActualPokemonForSearch(search, actualPokemon);
 }
 
@@ -49,6 +60,7 @@ function getActualPokemonForSearch(search, actualPokemon) {
     if (search.length === 0) {
         renderPokemonCard();
         document.getElementById('pokemonContent').classList.remove('d-none');
+        document.body.style = 'overflow: auto';
     } else {
         for (let j = 0; j < allPokemons.length; j++) {
             if (search) {
@@ -62,10 +74,10 @@ function getActualPokemonForSearch(search, actualPokemon) {
 function checkForPokemon(j, search, actualPokemon) {
     let actualName = allPokemons[j].pokemonName;
     if (actualName.toLowerCase().includes(search)) {
-        // document.getElementById('pokemonContent').classList.add('d-none');
         actualPokemon = allPokemons[j];
         let i = actualPokemon.id - 1;
         showSearchedPokemon(i);
+        document.body.style = 'overflow: hidden';
     }
 }
 
@@ -79,7 +91,6 @@ function showSearchedPokemon(i) {
 window.addEventListener('scroll', lazyLoad);
 let isLoading = false;
 function lazyLoad() {
-    //   getElement('pokemonLoader').classList.remove('hide');
     let h = document.documentElement;
     let b = document.body;
     let st = 'scrollTop';
@@ -96,11 +107,13 @@ function lazyLoad() {
 
 
 async function loadMorePokemons() {
+    activateLoader();
     for (let i = allPokemons.length; i < limit; i++) {
         await getJsons(i);
     }
     renderPokemonCard();
     isLoading = false;
+    deactivateLoader();
 }
 
 
@@ -113,5 +126,4 @@ async function loadStats() {
     pokemonStats = await Promise.all(promises);
     // alle funktionen die ein await brauchen zum bsp fetch url werden mit promise abgewartet also brauch man nicht bei allem await schreiben sondern nur einmal promise.all(promise)
 }
-
 

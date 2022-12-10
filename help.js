@@ -1,14 +1,21 @@
 function openPokedex() {
-    document.getElementById('overlay').style = ('display: none');
+    document.getElementById('overlay').classList.add('puff-out-center');
+    setTimeout(() => {
+        document.getElementById('overlay').classList.add('d-none');
+    }, 300);
     document.body.classList.remove('hidden');
+    loadPokedex();
 }
 
 
 function closeFullCard() {
-    document.body.style = ('overflow: auto')
-    setTimeout(function () {
-        document.getElementById('openedCard').innerHTML = ``;
-    }, 200)
+    document.body.style = ('overflow: auto');
+    document.querySelector('.backgroundofFullCard').classList.toggle('swing-out-top-bck');
+}
+
+
+function preventClosing(event) {
+    event.stopPropagation();
 }
 
 
@@ -69,11 +76,10 @@ function styleFullCard(i) {
 function changeToShiny(i) {
     if (document.getElementById(`pokemonImgFullCard${i}`).src == `${allPokemons[i].mainInfo.sprites.other.home.front_default}`) {
         document.getElementById(`pokemonImgFullCard${i}`).src = `${allPokemons[i].mainInfo.sprites.other.home.front_shiny}`;
-        document.getElementById(`pokemonImgFullCard${i}`).classList.add('slide-in-top');
+        document.getElementById(`pokemonImgFullCard${i}`).classList.toggle('slide-in-top');
     } else if (document.getElementById(`pokemonImgFullCard${i}`).src == `${allPokemons[i].mainInfo.sprites.other.home.front_shiny}`) {
         document.getElementById(`pokemonImgFullCard${i}`).src = `${allPokemons[i].mainInfo.sprites.other.home.front_default}`;
-        document.getElementById(`pokemonImgFullCard${i}`).classList.remove('slide-in-top');
-        document.getElementById(`pokemonImgFullCard${i}`).classList.add('slide-in-bck-center');
+        document.getElementById(`pokemonImgFullCard${i}`).classList.toggle('slide-in-bck-center');
     }
 
 }
@@ -82,11 +88,9 @@ function changeToShiny(i) {
 async function getJsons(i) {
     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${i + 1}`);
     let responseAsJson = await response.json();
-    // console.log(responseAsJson);
 
     let speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i + 1}`);
     let speciesJson = await speciesResponse.json();
-    // console.log(speciesJson);
     buildArrayOfPokemon(responseAsJson, speciesJson);
 }
 
@@ -100,6 +104,11 @@ async function getEvolution(i) {
 
 
 function checkEvo() {
+    getFirstEvolution();
+    getSecondEvolution();
+}
+
+function getFirstEvolution() {
     if (currentPokemonEvolution.chain.evolves_to.length >= 1) {
 
         let currentPokemon = allPokemons.find(n => {
@@ -112,7 +121,10 @@ function checkEvo() {
         document.getElementById(`secondEvolution`).innerHTML = '';
         document.getElementById('level').innerHTML = '';
     }
+}
 
+
+function getSecondEvolution() {
     if (currentPokemonEvolution.chain.evolves_to[0].evolves_to.length >= 1) {
 
         let currentPokemon = allPokemons.find(n => {
@@ -125,7 +137,7 @@ function checkEvo() {
         document.getElementById(`thirdEvolution`).innerHTML = '';
         document.getElementById('level2').innerHTML = '';
 
-    } return
+    }
 }
 
 
@@ -134,25 +146,8 @@ function getStatsNameByLanguage() {
 }
 
 
-function showCleanPokedex() {
-    document.getElementById('stylesheet').href = 'cleanCard.css';
-    openPokedex();
-}
-
-
 async function fetchUrl(url) {
     let response = await fetch(url);
     return (currentResponse = await response.json());
-}
-
-function changeCSS(cssFile, cssLinkIndex) {
-    var oldlink = document.getElementsByTagName("link").item(cssLinkIndex);
-
-    var newlink = document.createElement("link");
-    newlink.setAttribute("rel", "stylesheet");
-    // newlink.setAttribute("type", "text/css");
-    newlink.setAttribute("href", cssFile);
-
-    document.getElementsByTagName("head").item(cssLinkIndex).replaceChild(newlink, oldlink);
 }
 

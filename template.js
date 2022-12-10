@@ -13,6 +13,7 @@ function openFullInfo(i) {
     let openedCard = document.getElementById(`openedCard`);
     openedCard.innerHTML = '';
     openedCard.innerHTML += createFullCard(i);
+    document.querySelector('.backgroundofFullCard').classList.toggle('swing-in-top-fwd');
     renderPokemonTypes(i);
     styleFullCard(i);
     renderStats(i);
